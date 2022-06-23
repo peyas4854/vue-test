@@ -1,26 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <button
+        v-for="(tab,index) in tabs"
+        :key="tab.name"
+        @click="changeComponent(index)"
+    >
+      {{ tab.name }}
+    </button>
+    <component :is="selected" class="tab"></component>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Home from './components/Home.vue'
+import About from './components/About.vue'
+import ApplicationForm from './components/ApplicationForm.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      tabs: [
+        {name: 'Home', component: 'Home'},
+        {name: 'About', component: 'About'},
+        {name: 'Application Form', component: 'ApplicationForm'},
+      ],
+      selected: 'Home',
+    }
+  },
   components: {
-    HelloWorld
+    Home,
+    About,
+    ApplicationForm
+  },
+  mounted() {
+    this.changeComponent(0)
+  },
+  methods: {
+    changeComponent(index) {
+      console.log('index', index)
+      this.selected = this.tabs[index].component;
+      console.log('selected', this.selected)
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
